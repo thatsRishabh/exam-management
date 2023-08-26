@@ -19,5 +19,7 @@ public interface QuestionService {
     public void deleteQuestion(Long quesId);
     public Object getEvaluateQuiz(List<QuestionEntity> questionEntities);
 
-    public Set<EvaluationEntity> attemptedQues(Long userId);
+//    public Set<EvaluationEntity> attemptedQues(Long userId);
+
+    public Object attemptedQues(Long userId);
 }

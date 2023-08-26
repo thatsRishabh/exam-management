@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Set;
 
-public interface EvaluationRepository extends JpaRepository<EvaluationEntity, Long> {
+public interface EvaluationRepository extends JpaRepository<EvaluationEntity, String> {
     Set<EvaluationEntity> findByUserId(Long userId);
 }

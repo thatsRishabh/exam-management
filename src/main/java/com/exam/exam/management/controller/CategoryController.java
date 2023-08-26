@@ -5,6 +5,7 @@ import com.exam.exam.management.service.CategoryService;
 import com.exam.exam.management.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,6 +27,7 @@ public class CategoryController {
     }
     //get all category
     @GetMapping("/")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     public ResponseEntity<?> getCategories(){
         return ResponseEntity.ok(this.categoryService.getCategories());
     }

@@ -24,9 +24,4 @@ public class EvaluationEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     private QuestionEntity questionEntity;
 
-//    @OneToMany(mappedBy = "quizEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JsonIgnore
-//    private QuestionEntity questionEntity;
-
-
 }

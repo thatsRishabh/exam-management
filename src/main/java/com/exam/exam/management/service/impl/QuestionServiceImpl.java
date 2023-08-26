@@ -57,7 +57,7 @@ public class QuestionServiceImpl implements QuestionService {
         Set<QuestionEntity> questionEntities= quizEntity.getQuestionEntities();
         List<QuestionEntity> list=new ArrayList(questionEntities);
         if (list.size()>Integer.parseInt(quizEntity.getNumberOfQuestions())){
-            list=list.subList(0,Integer.parseInt(quizEntity.getNumberOfQuestions()+1));
+            list=list.subList(0,Integer.parseInt(quizEntity.getNumberOfQuestions()));
         }
 
         // we dont want to send answer in response so we set value of answer to empty string
@@ -121,14 +121,47 @@ public class QuestionServiceImpl implements QuestionService {
 
         return map;
     }
-
     @Override
-    public Set<EvaluationEntity> attemptedQues(Long userId) {
-//        System.out.println("output  "+ evaluationRepository.findByUserId(userId));
+    public Object attemptedQues(Long userId) {
+        Set<EvaluationEntity> evaluationEntities= this.evaluationRepository.findByUserId(userId);
+        List<EvaluationEntity> list=new ArrayList(evaluationEntities);
+
+        double marksGot=0;
+        int correctAnswers=0;
+        int attempted= 0;
+
+        for (EvaluationEntity e: list){
+            if(e.getCorrectAnswer().equals(e.getGivenAnswer())){
+
+                correctAnswers++;
+
+                double marksSingle=Double.parseDouble(e.getQuestionEntity().getQuizEntity().getMaxMarks())/list.size();
+                marksGot +=marksSingle;
+            }
+            if (e.getGivenAnswer()!=null){
+                attempted ++;
+            }
+        }
+//        System.out.println("output------------> "+ list.get(0).getCorrectAnswer());
+//        return evaluationEntities;
+
+        Map<String,Object> map=Map.of("marksGot",marksGot,"correctAnswers",correctAnswers,"attempted",attempted,"payload",list);
+//        return this.evaluationRepository.findByUserId(userId);
+        return map;
+    }
+//    @Override
+//    public Set<EvaluationEntity> attemptedQues(Long userId) {
+////        System.out.println("output  "+ evaluationRepository.findByUserId(userId));
 //        Set<EvaluationEntity> evaluationEntities= this.evaluationRepository.findByUserId(userId);
 //        List<EvaluationEntity> list=new ArrayList(evaluationEntities);
-//        log.info("output  "+ list.size());
-//        return evaluationEntities;
-        return this.evaluationRepository.findByUserId(userId);
-    }
+//        for (EvaluationEntity e: list){
+////            log.info(e);
+//            System.out.println("output------------> "+ e.getCorrectAnswer());
+//        }
+////        System.out.println("output------------> "+ list.get(0).getCorrectAnswer());
+////        return evaluationEntities;
+//        return this.evaluationRepository.findByUserId(userId);
+//    }
+
+
 }

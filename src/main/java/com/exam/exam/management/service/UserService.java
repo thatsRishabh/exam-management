@@ -9,7 +9,9 @@ import java.util.Set;
 @Component
 public interface UserService {
 
-    public UserEntity createUser(UserEntity userEntity, Set<UserRoleEntity> userRoleEntities) throws Exception;
+//    public UserEntity createUser(UserEntity userEntity, Set<UserRoleEntity> userRoleEntities) throws Exception;
+
+    public UserEntity createUser(UserEntity userEntity);
 
     public UserEntity getByUsername(String username);
 }

@@ -36,7 +36,7 @@ public class UserEntity {
 
     private boolean enabled= true;
 
-    private String role;
+    private String roles;
     private String profile;
 
 //    user will have many roles
