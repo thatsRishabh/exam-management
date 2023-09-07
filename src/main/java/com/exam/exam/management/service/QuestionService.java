@@ -3,6 +3,7 @@ package com.exam.exam.management.service;
 import com.exam.exam.management.entity.exam.EvaluationEntity;
 import com.exam.exam.management.entity.exam.QuestionEntity;
 import com.exam.exam.management.entity.exam.QuizEntity;
+import org.thymeleaf.context.Context;
 
 import java.util.List;
 import java.util.Set;
@@ -22,4 +23,6 @@ public interface QuestionService {
 //    public Set<EvaluationEntity> attemptedQues(Long userId);
 
     public Object attemptedQues(Long userId);
+
+    public Context attemptedQuesPrint(Long userId);
 }

@@ -22,22 +22,22 @@ public class FileUploadController {
     @Autowired
     FileUploadService fileUploadService;
 
-    @Value("${project.image}")
+    @Value("${project.upload}")
     private String path;
 
     @PostMapping("/fileupload")
-    public ResponseEntity<FileUploadResponse> fileUpload(@RequestParam("image") MultipartFile image)  {
+    public ResponseEntity<FileUploadResponse> fileUpload(@RequestParam("uploadFile") MultipartFile uploadFile)  {
 
         String fileName = null;
         String downloadURl = null;
         String fileType = null;
         Long fileSize = null;
         try {
-            fileSize=image.getSize();
-            fileType=image.getContentType();
-           fileName=this.fileUploadService.uploadImage(path,image);
+            fileSize=uploadFile.getSize();
+            fileType=uploadFile.getContentType();
+           fileName=this.fileUploadService.uploadImage(path,uploadFile);
             downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
-                    .path("/file/images/")
+                    .path("/file/download/")
                     .path(fileName)
                     .toUriString();
         }catch (IOException e){
@@ -45,46 +45,15 @@ public class FileUploadController {
             return new ResponseEntity<>(new FileUploadResponse(null,null, fileType,fileSize,"file not uploaded") , HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(new FileUploadResponse(fileName,downloadURl, fileType, fileSize,"file  uploaded successfully"), HttpStatus.OK);
-//        return new ResponseEntity<>(new FileResponse(downloadURl,fileSize ), HttpStatus.OK);
     }
 
-//    @PostMapping("/upload")
-//    public FileUploadResponse uploadFile(@RequestParam("file") MultipartFile file) throws Exception {
-//        FileUploadEntity attachment = null;
-//        String downloadURl = "";
-//        attachment = fileUploadService.saveAttachment(file);
-//        downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
-//                .path("/download/")
-//                .path(attachment.getId())
-//                .toUriString();
-//
-//        return new FileUploadResponse(attachment.getFileName(),
-//                downloadURl,
-//                file.getContentType(),
-//                file.getSize());
-//    }
-
-    // below function will be used to host the file
 
 
-        @GetMapping("/images/{imageName}")
-        public void downloadFile(@PathVariable("imageName") String imageName, HttpServletResponse response) throws IOException {
-            InputStream resource=this.fileUploadService.getResource(path,imageName);
+        @GetMapping("/download/{fileName}")
+        public void downloadFile(@PathVariable("fileName") String fileName, HttpServletResponse response) throws IOException {
+            InputStream resource=this.fileUploadService.getResource(path,fileName);
             response.setContentType(MediaType.IMAGE_JPEG_VALUE);
             StreamUtils.copy(resource,response.getOutputStream());
     }
-
-
-//    @GetMapping("/download/{fileId}")
-//    public ResponseEntity<Resource> downloadFile(@PathVariable String fileId) throws Exception {
-//        FileUploadEntity attachment = null;
-//        attachment = fileUploadService.getAttachment(fileId);
-//        return  ResponseEntity.ok()
-//                .contentType(MediaType.parseMediaType(attachment.getFileType()))
-//                .header(HttpHeaders.CONTENT_DISPOSITION,
-//                        "attachment; filename=\"" + attachment.getFileName()
-//                                + "\"")
-//                .body(new ByteArrayResource(attachment.getData()));
-//    }
 
 }

@@ -7,11 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public interface FileUploadService {
-//    FileUploadEntity saveAttachment( MultipartFile file) throws Exception;
-//
-//    FileUploadEntity getAttachment(String fileId) throws Exception;
 
-    String uploadImage(String path, MultipartFile file) throws IOException;
+    String uploadImage(String path, MultipartFile uploadFile) throws IOException;
 
     InputStream getResource(String path, String fileName) throws FileNotFoundException;
 }

@@ -1,0 +1,18 @@
+<table class="table">
+<!--    <table class="table" xmlns:th="http://www.w3.org/1999/xhtml">-->
+    <thead>
+    <tr>
+        <th> Employee First Name</th>
+        <th> Employee Last Name</th>
+        <th> Employee Email</th>
+    </tr>
+
+    </thead>
+    <tbody>
+    <tr th:each="employee : ${employees}">
+        <td th:text="${employee.firstName}"></td>
+        <td th:text="${employee.lastName}"></td>
+        <td th:text="${employee.email}"></td>
+    </tr>
+    </tbody>
+</table>

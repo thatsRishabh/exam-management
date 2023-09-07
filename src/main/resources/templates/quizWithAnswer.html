@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+</head>
+<body>
+<h2>Quiz Report!</h2>
+Attempted question<h5 th:text="${employees.attempted}"></h5>
+<br>
+Total Correct Answer <h5 th:text="${employees.correctAnswers}"></h5>
+<br>
+Marks Got   <h5 th:text="${employees.marksGot}"></h5>
+<br>
+<!--<table>-->
+<!--&lt;!&ndash;    attempted question<h5 th:text="${employees.attempted}"></h5>&ndash;&gt;-->
+<!--&lt;!&ndash;    <h5 th:text="${employees.correctAnswers}"></h5>&ndash;&gt;-->
+<!--&lt;!&ndash;    <h5 th:text="${employees.marksGot}"></h5>&ndash;&gt;-->
+<!--&lt;!&ndash;    <br>&ndash;&gt;-->
+<!--    <tr>-->
+<!--      Attempted  <td th:text="${employees.attempted}">Mark</td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--     Total Correct Answer<td th:text="${employees.correctAnswers}">Mark</td>-->
+<!--    </tr>-->
+<!--    <tr>-->
+<!--       Marks Got <td th:text="${employees.marksGot}"></td>-->
+<!--    </tr>-->
+<!--</table>-->
+<table class="table caption-top border-primary"  >
+    <Div th:each="employee : ${employees.payload}">
+    <caption th:text="${employee.questionEntity.content}"></caption>
+    <thead class="table-dark" >
+<!--    <h5 th:text="${employee.marksGot}"></h5>-->
+    <tr>
+        <th scope="col">Option A</th>
+        <th scope="col">Option B</th>
+        <th scope="col">Option C</th>
+        <th scope="col">Option D</th>
+        <th scope="col">Option Correct Answer</th>
+        <th scope="col">Option Marked Answer</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <th scope="row">1</th>
+        <td>Mark</td>
+        <td>Otto</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+    </tr>
+    <tr>
+        <th scope="row">2</th>
+        <td>Jacob</td>
+        <td>Thornton</td>
+        <td>@fat</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+    </tr>
+    <tr>
+        <th scope="row">3</th>
+        <td>Larry</td>
+        <td>the Bird</td>
+        <td>@twitter</td>
+        <td>@mdo</td>
+        <td>@mdo</td>
+    </tr>
+    </tbody>
+    </Div>
+</table>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+</body>
+</html>

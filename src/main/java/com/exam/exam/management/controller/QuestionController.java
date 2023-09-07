@@ -1,12 +1,14 @@
 package com.exam.exam.management.controller;
 
 import com.exam.exam.management.entity.exam.QuestionEntity;
-import com.exam.exam.management.entity.exam.QuizEntity;
+import com.exam.exam.management.service.DocumentService;
 import com.exam.exam.management.service.QuestionService;
 import com.exam.exam.management.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.*;
 
@@ -20,6 +22,12 @@ public class QuestionController {
 
     @Autowired
     private QuizService quizService;
+
+    @Autowired
+    private SpringTemplateEngine springTemplateEngine;
+
+    @Autowired
+    private DocumentService documentService;
 
     @PostMapping("/")
     public ResponseEntity<QuestionEntity> addQuestion(@RequestBody QuestionEntity questionEntity){
@@ -59,6 +67,19 @@ public class QuestionController {
     @GetMapping("/attempted/{userId}")
     public ResponseEntity<?> attemptedQuestion(@PathVariable("userId") Long userId ){
         return ResponseEntity.ok(this.questionService.attemptedQues(userId));
+    }
+
+    @GetMapping("/print/{userId}")
+    public String attemptedQuestionPrint(@PathVariable("userId") Long userId ){
+                String finalHtml = null;
+                Context dataContext =  this.questionService.attemptedQuesPrint(userId);
+                finalHtml = this.springTemplateEngine.process("quizWithAnswer", dataContext);
+                this.documentService.htmlToPdf(finalHtml);
+//        String finalHtml = null;
+//        Context dataContext = this.documentService.setData(employeeList);
+//        finalHtml = this.springTemplateEngine.process("template", dataContext);
+//        this.documentService.htmlToPdf(finalHtml);
+        return "Success";
     }
 
 }

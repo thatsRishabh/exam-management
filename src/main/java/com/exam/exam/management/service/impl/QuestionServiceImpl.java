@@ -10,6 +10,7 @@ import com.exam.exam.management.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
 
 import java.util.*;
 
@@ -148,6 +149,42 @@ public class QuestionServiceImpl implements QuestionService {
         Map<String,Object> map=Map.of("marksGot",marksGot,"correctAnswers",correctAnswers,"attempted",attempted,"payload",list);
 //        return this.evaluationRepository.findByUserId(userId);
         return map;
+    }
+
+    @Override
+    public Context attemptedQuesPrint(Long userId) {
+        Set<EvaluationEntity> evaluationEntities= this.evaluationRepository.findByUserId(userId);
+        List<EvaluationEntity> list=new ArrayList(evaluationEntities);
+
+        double marksGot=0;
+        int correctAnswers=0;
+        int attempted= 0;
+
+        for (EvaluationEntity e: list){
+            if(e.getCorrectAnswer().equals(e.getGivenAnswer())){
+
+                correctAnswers++;
+
+                double marksSingle=Double.parseDouble(e.getQuestionEntity().getQuizEntity().getMaxMarks())/list.size();
+                marksGot +=marksSingle;
+            }
+            if (e.getGivenAnswer()!=null){
+                attempted ++;
+            }
+        }
+//        System.out.println("output------------> "+ list.get(0).getCorrectAnswer());
+//        return evaluationEntities;
+
+        Map<String,Object> map=Map.of("marksGot",marksGot,"correctAnswers",correctAnswers,"attempted",attempted,"payload",list);
+//        return this.evaluationRepository.findByUserId(userId);
+        Context context = new Context();
+        Map<String, Object> data = new HashMap();
+        //     below "employees" will represent to template
+        data.put("employees", map);
+        context.setVariables(data);
+        return context;
+
+//        return map;
     }
 //    @Override
 //    public Set<EvaluationEntity> attemptedQues(Long userId) {

@@ -16,10 +16,10 @@ public class FileUploadServiceImpl implements FileUploadService {
 
 
     @Override
-    public String uploadImage(String path, MultipartFile file) throws IOException {
+    public String uploadImage(String path, MultipartFile uploadFile) throws IOException {
 
 //        file name
-        String name = file.getOriginalFilename();
+        String name = uploadFile.getOriginalFilename();
 
         String randomId= UUID.randomUUID().toString();
         String name1=randomId.concat(name.substring(name.lastIndexOf(".")));
@@ -33,32 +33,10 @@ public class FileUploadServiceImpl implements FileUploadService {
         }
 
 //        file copy
-        Files.copy(file.getInputStream(), Paths.get(filePath));
+        Files.copy(uploadFile.getInputStream(), Paths.get(filePath));
 
         return name1;
     }
-
-
-//
-//    @Override
-//    public FileUploadEntity saveAttachment(MultipartFile file) throws Exception {
-//        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
-//        try {
-//            if(fileName.contains("..")) {
-//                throw  new Exception("Filename contains invalid path sequence "
-//                        + fileName);
-//            }
-//
-//            FileUploadEntity attachment
-//                    = new FileUploadEntity(fileName,
-//                    file.getContentType());
-////                    file.getBytes());
-//            return fileUploadRepository.save(attachment);
-//
-//        } catch (Exception e) {
-//            throw new Exception("Could not save File: " + fileName);
-//        }
-//    }
 
     @Override
     public InputStream getResource(String path, String fileName) throws FileNotFoundException {
@@ -66,12 +44,4 @@ public class FileUploadServiceImpl implements FileUploadService {
         InputStream iS= new FileInputStream(fullPath);
         return iS;
     }
-
-//    @Override
-//    public FileUploadEntity getAttachment(String fileId) throws Exception {
-//        return fileUploadRepository
-//                .findById(fileId)
-//                .orElseThrow(
-//                        () -> new Exception("File not found with Id: " + fileId));
-//    }
 }

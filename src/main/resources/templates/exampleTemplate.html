@@ -1,0 +1,28 @@
+<table class="table">
+  <!--    <table class="table" xmlns:th="http://www.w3.org/1999/xhtml">-->
+  <thead>
+  <tr>
+    <div>
+      <h2 th:text="${employees.attempted}"></h2>
+      <h6 th:text="${employees.marksGot}"></h6>
+      <br>
+    </div>
+    <th> Employee First Name</th>
+    <th> Employee Last Name</th>
+    <th> Employee Email</th>
+    <th> th:text="${employees.marksGot}" </th>
+  </tr>
+
+  </thead>
+  <tbody>
+  <tr th:each="employee : ${employees.payload}">
+    <!--        <td th:text="${employee.firstName}"></td>-->
+    <!--        <td th:text="${employee.lastName}"></td>-->
+    <!--        <td th:text="${employee.email}"></td>-->
+
+    <td th:text="${employee.givenAnswer}"></td>
+    <td th:text="${employee.correctAnswer}"></td>
+
+  </tr>
+  </tbody>
+</table>
