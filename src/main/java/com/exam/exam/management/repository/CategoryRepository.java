@@ -13,7 +13,7 @@ import java.util.Set;
 
 public interface CategoryRepository extends JpaRepository<CategoryEntity,Long> {
 
-    public Page<CategoryEntity> findByTitle(String name, Pageable pageable);
+    public Page<CategoryEntity> findByTitleContaining(String name, Pageable pageable);
 
 //   public Optional<CategoryEntity> findByCid(Long id);
 

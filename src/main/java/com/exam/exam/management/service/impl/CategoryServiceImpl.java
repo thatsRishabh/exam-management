@@ -60,10 +60,10 @@ public class CategoryServiceImpl implements CategoryService {
                 }
             }
             else if (name != null) {
-                categoryPage = categoryRepository.findByTitle(name, PageRequest.of(page - 1, perPageRecord));
+                categoryPage = categoryRepository.findByTitleContaining(name, PageRequest.of(page - 1, perPageRecord,Sort.by(Sort.Order.desc("cid"))));
             }
             else {
-                categoryPage = categoryRepository.findAll(PageRequest.of(page - 1, perPageRecord));
+                categoryPage = categoryRepository.findAll(PageRequest.of(page - 1, perPageRecord,Sort.by(Sort.Order.desc("cid"))));
             }
 
             List<CategoryEntity> categoryEntities = categoryPage.getContent();
