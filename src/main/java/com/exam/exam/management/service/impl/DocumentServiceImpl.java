@@ -43,11 +43,13 @@ public class DocumentServiceImpl implements DocumentService {
 
             long currentTimestamp = Instant.now().toEpochMilli();
             FileOutputStream fout = new FileOutputStream("asset/"+currentTimestamp+".pdf");
+//            System.out.println(currentTimestamp+".pdf");
             byteArrayOutputStream.writeTo(fout);
             byteArrayOutputStream.close();
             byteArrayOutputStream.flush();
             fout.close();
-            return null;
+//            return null;
+            return currentTimestamp+".pdf";
         } catch (Exception var7) {
             return null;
         }

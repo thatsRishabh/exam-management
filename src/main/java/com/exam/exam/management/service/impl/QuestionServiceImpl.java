@@ -179,8 +179,8 @@ public class QuestionServiceImpl implements QuestionService {
 //        return this.evaluationRepository.findByUserId(userId);
         Context context = new Context();
         Map<String, Object> data = new HashMap();
-        //     below "employees" will represent to template
-        data.put("employees", map);
+        //     below "infoData" will represent to template
+        data.put("infoData", map);
         context.setVariables(data);
         return context;
 

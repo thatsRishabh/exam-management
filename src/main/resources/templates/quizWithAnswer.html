@@ -8,33 +8,17 @@
 </head>
 <body>
 <h2>Quiz Report!</h2>
-Attempted question<h5 th:text="${employees.attempted}"></h5>
+Attempted question<h5 th:text="${infoData.attempted}"></h5>
 <br>
-Total Correct Answer <h5 th:text="${employees.correctAnswers}"></h5>
+Total Correct Answer <h5 th:text="${infoData.correctAnswers}"></h5>
 <br>
-Marks Got   <h5 th:text="${employees.marksGot}"></h5>
+Marks Got   <h5 th:text="${infoData.marksGot}"></h5>
 <br>
-<!--<table>-->
-<!--&lt;!&ndash;    attempted question<h5 th:text="${employees.attempted}"></h5>&ndash;&gt;-->
-<!--&lt;!&ndash;    <h5 th:text="${employees.correctAnswers}"></h5>&ndash;&gt;-->
-<!--&lt;!&ndash;    <h5 th:text="${employees.marksGot}"></h5>&ndash;&gt;-->
-<!--&lt;!&ndash;    <br>&ndash;&gt;-->
-<!--    <tr>-->
-<!--      Attempted  <td th:text="${employees.attempted}">Mark</td>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--     Total Correct Answer<td th:text="${employees.correctAnswers}">Mark</td>-->
-<!--    </tr>-->
-<!--    <tr>-->
-<!--       Marks Got <td th:text="${employees.marksGot}"></td>-->
-<!--    </tr>-->
-<!--</table>-->
 <table class="table caption-top border-primary"  >
-    <Div th:each="employee : ${employees.payload}">
-    <caption th:text="${employee.questionEntity.content}"></caption>
     <thead class="table-dark" >
-<!--    <h5 th:text="${employee.marksGot}"></h5>-->
+    <!--    <h5 th:text="${employee.marksGot}"></h5>-->
     <tr>
+        <th scope="col">Question</th>
         <th scope="col">Option A</th>
         <th scope="col">Option B</th>
         <th scope="col">Option C</th>
@@ -43,30 +27,16 @@ Marks Got   <h5 th:text="${employees.marksGot}"></h5>
         <th scope="col">Option Marked Answer</th>
     </tr>
     </thead>
+    <Div th:each="infoDatas : ${infoData.payload}">
     <tbody>
     <tr>
-        <th scope="row">1</th>
-        <td>Mark</td>
-        <td>Otto</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-    </tr>
-    <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
-    </tr>
-    <tr>
-        <th scope="row">3</th>
-        <td>Larry</td>
-        <td>the Bird</td>
-        <td>@twitter</td>
-        <td>@mdo</td>
-        <td>@mdo</td>
+        <th scope="row" th:text="${infoDatas.questionEntity.content}">1</th>
+        <td th:text="${infoDatas.questionEntity.option1}"></td>
+        <td th:text="${infoDatas.questionEntity.option2}" ></td>
+        <td th:text="${infoDatas.questionEntity.option3}" ></td>
+        <td th:text="${infoDatas.questionEntity.option4}" ></td>
+        <td th:text="${infoDatas.questionEntity.answer}" ></td>
+        <td th:text="${infoDatas.questionEntity.givenAnswer}" ></td>
     </tr>
     </tbody>
     </Div>

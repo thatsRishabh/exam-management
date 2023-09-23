@@ -10,5 +10,5 @@ public interface FileUploadService {
 
     String uploadImage(String path, MultipartFile uploadFile) throws IOException;
 
-    InputStream getResource(String path, String fileName) throws FileNotFoundException;
+//    InputStream getResource(String path, String fileName) throws FileNotFoundException;
 }

@@ -38,10 +38,10 @@ public class FileUploadServiceImpl implements FileUploadService {
         return name1;
     }
 
-    @Override
-    public InputStream getResource(String path, String fileName) throws FileNotFoundException {
-        String fullPath =path + File.separator +fileName;
-        InputStream iS= new FileInputStream(fullPath);
-        return iS;
-    }
+//    @Override
+//    public InputStream getResource(String path, String fileName) throws FileNotFoundException {
+//        String fullPath =path + File.separator +fileName;
+//        InputStream iS= new FileInputStream(fullPath);
+//        return iS;
+//    }
 }

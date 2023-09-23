@@ -49,11 +49,12 @@ public class FileUploadController {
 
 
 
-        @GetMapping("/download/{fileName}")
-        public void downloadFile(@PathVariable("fileName") String fileName, HttpServletResponse response) throws IOException {
-            InputStream resource=this.fileUploadService.getResource(path,fileName);
-            response.setContentType(MediaType.IMAGE_JPEG_VALUE);
-            StreamUtils.copy(resource,response.getOutputStream());
-    }
+//        @GetMapping("/download/{fileName}")
+//        public void downloadFile(@PathVariable("fileName") String fileName, HttpServletResponse response) throws IOException {
+//            InputStream resource=this.fileUploadService.getResource(path,fileName);
+////            response.setContentType(MediaType.IMAGE_JPEG_VALUE);
+////            response.setContentType(MediaType.APPLICATION_PDF_VALUE);
+//            StreamUtils.copy(resource,response.getOutputStream());
+//    }
 
 }

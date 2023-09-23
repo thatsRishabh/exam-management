@@ -1,12 +1,15 @@
 package com.exam.exam.management.controller;
 
 import com.exam.exam.management.entity.exam.QuestionEntity;
+import com.exam.exam.management.response.FileUploadResponse;
 import com.exam.exam.management.service.DocumentService;
 import com.exam.exam.management.service.QuestionService;
 import com.exam.exam.management.service.QuizService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
@@ -69,17 +72,49 @@ public class QuestionController {
         return ResponseEntity.ok(this.questionService.attemptedQues(userId));
     }
 
+//    @GetMapping("/print/{userId}")
+//    public ResponseEntity<FileUploadResponse> attemptedQuestionPrint(@PathVariable("userId") Long userId ){
+//                String finalHtml = null;
+//                Context dataContext =  this.questionService.attemptedQuesPrint(userId);
+//                finalHtml = this.springTemplateEngine.process("quizWithAnswer", dataContext);
+////                this.documentService.htmlToPdf(finalHtml);
+//
+//        String fileName = null;
+//        String downloadURl = null;
+//        Long fileSize = null;
+//        fileName=this.documentService.htmlToPdf(finalHtml);
+//        downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
+//                .path("/file/download/")
+//                .path(fileName)
+//                .toUriString();
+////        return "Success";
+//        return new ResponseEntity<>(new FileUploadResponse(fileName,downloadURl, null, 56565656L,"PDF generated successfully"), HttpStatus.OK);
+//    }
+
     @GetMapping("/print/{userId}")
-    public String attemptedQuestionPrint(@PathVariable("userId") Long userId ){
-                String finalHtml = null;
-                Context dataContext =  this.questionService.attemptedQuesPrint(userId);
-                finalHtml = this.springTemplateEngine.process("quizWithAnswer", dataContext);
-                this.documentService.htmlToPdf(finalHtml);
-//        String finalHtml = null;
-//        Context dataContext = this.documentService.setData(employeeList);
-//        finalHtml = this.springTemplateEngine.process("template", dataContext);
-//        this.documentService.htmlToPdf(finalHtml);
-        return "Success";
+    public ResponseEntity<FileUploadResponse> attemptedQuestionPrint(@PathVariable("userId") Long userId) {
+        try {
+            String finalHtml = null;
+            Context dataContext = this.questionService.attemptedQuesPrint(userId);
+            finalHtml = this.springTemplateEngine.process("quizWithAnswer", dataContext);
+
+            String fileName = null;
+            String downloadURl = null;
+            Long fileSize = null;
+            fileName = this.documentService.htmlToPdf(finalHtml);
+            downloadURl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/file/download/")
+                    .path(fileName)
+                    .toUriString();
+
+            return new ResponseEntity<>(new FileUploadResponse(fileName, downloadURl, null, 56565656L, "PDF generated successfully"), HttpStatus.OK);
+        } catch (Exception e) {
+            // Handle the exception here, you can log it or return an error response.
+            e.printStackTrace(); // You should replace this with proper error handling.
+
+            // Return an error response to the client.
+            return new ResponseEntity<>(new FileUploadResponse(null, null, null, 0L, "An error occurred while generating the PDF"), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 }
