@@ -9,6 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.Instant;
 import java.util.UUID;
 
 @Service
@@ -21,8 +22,9 @@ public class FileUploadServiceImpl implements FileUploadService {
 //        file name
         String name = uploadFile.getOriginalFilename();
 
-        String randomId= UUID.randomUUID().toString();
-        String name1=randomId.concat(name.substring(name.lastIndexOf(".")));
+//        String randomId= UUID.randomUUID().toString();
+        String currentTimestamp = String.valueOf(Instant.now().toEpochMilli());
+        String name1=currentTimestamp.concat(name.substring(name.lastIndexOf(".")));
 //        full path
         String filePath = path + File.separator + name1;
 

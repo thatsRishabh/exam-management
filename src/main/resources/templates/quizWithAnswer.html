@@ -1,46 +1,207 @@
-<!doctype html>
+
+<!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marksheet Result Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <style>
+            *{
+                background-color: white;
+                transition: all .20s ease;
+            }
+
+            #content{
+                width: auto;
+                align-item: center;
+                font-family:FontAwesome;
+                 text-align: center;
+            }
+
+            a{
+                padding-left: 25px;
+                text-decoration: none;
+                color: black;
+                font-weight: bold;
+            }
+            a:hover{
+                color: red;
+            }
+            li{
+                display: inline-block;
+            }
+            #mob-nav-open, #mob-nav-close{
+                top:20px;
+                right: 10px;
+                position: absolute;
+                padding:0 0 0 20px;
+                display: none;
+                transition: 2s;
+            }
+            table{
+                background-color: gainsboro;
+                border: 0px;
+                text-align: center;
+            }
+            table tr{
+                color:black;
+            }
+            th{
+                text-align: center;
+                background-color:#DAA520;
+            }
+            td{
+                text-align: center;
+                background-color:#FFFACD
+            }
+            #m, #t{
+                background-color: #EEE8AA;
+            }
+            span{
+                margin-right: 0px;
+                color:red;
+                font-weight: bold;
+                width:auto;
+                height: auto;
+                font-size: 1.3vw;
+            }
+            button{
+                cursor:pointer;
+            }
+
+            @media  screen and (max-width:850px){
+
+                #web-name{
+                    padding-left: 0px;
+                }
+                #main-menu{
+                    display:none;
+                }
+                #mob-nav-open{
+                    display: block;
+                }
+                #top-nav-bar{
+                    display: block;
+                }
+                #top-nav-bar{
+                    flex-direction: column;
+                    align-items: flex-start;
+                    display: flex;
+
+                }
+                #main-menu{
+                    width: 100%;
+                    height: 100%;
+                    transition: 1s ease;
+                    z-index: 20;
+                    text-align: left;
+                }
+                li{
+                    display:block;
+                    padding: 10px;
+                    border-top: 1px solid red;
+                    font-family: FontAwesome;
+                    font-size: 12px;
+                    font-weight: bold;
+                }
+                li > a{
+                    display: inline-block;
+                    width: 98%;
+                }
+            }
+           .table-container {
+                    display: flex;
+                    justify-content: center;
+                     align-items: center;
+
+                   }
+
+
+
+        </style>
+
+    <script>
+    function mobnav(){
+        var a = document.getElementById("main-menu");
+        var open = document.getElementById("mob-nav-open");
+        var close = document.getElementById("mob-nav-close");
+        open.style.display ="none";
+        close.style.display ="block";
+        if(a.style.display === "block"){
+            a.style.display = "none";
+        }
+        else{
+        a.style.display = 'block';
+        }
+    }
+        // OPEN TOP MOBILE NAVIGATION TOGGLE
+    function mobnavclose(){
+        var a = document.getElementById("main-menu");
+        var open = document.getElementById("mob-nav-open");
+        var close = document.getElementById("mob-nav-close");
+        open.style.display = "";
+        close.style.display = "none";
+        a.style.display = "";
+    }
+        </script>
 </head>
-<body>
-<h2>Quiz Report!</h2>
-Attempted question<h5 th:text="${infoData.attempted}"></h5>
-<br>
-Total Correct Answer <h5 th:text="${infoData.correctAnswers}"></h5>
-<br>
-Marks Got   <h5 th:text="${infoData.marksGot}"></h5>
-<br>
-<table class="table caption-top border-primary"  >
-    <thead class="table-dark" >
-    <!--    <h5 th:text="${employee.marksGot}"></h5>-->
-    <tr>
-        <th scope="col">Question</th>
-        <th scope="col">Option A</th>
-        <th scope="col">Option B</th>
-        <th scope="col">Option C</th>
-        <th scope="col">Option D</th>
-        <th scope="col">Option Correct Answer</th>
-        <th scope="col">Option Marked Answer</th>
-    </tr>
-    </thead>
-    <Div th:each="infoDatas : ${infoData.payload}">
-    <tbody>
-    <tr>
-        <th scope="row" th:text="${infoDatas.questionEntity.content}">1</th>
-        <td th:text="${infoDatas.questionEntity.option1}"></td>
-        <td th:text="${infoDatas.questionEntity.option2}" ></td>
-        <td th:text="${infoDatas.questionEntity.option3}" ></td>
-        <td th:text="${infoDatas.questionEntity.option4}" ></td>
-        <td th:text="${infoDatas.questionEntity.answer}" ></td>
-        <td th:text="${infoDatas.questionEntity.givenAnswer}" ></td>
-    </tr>
-    </tbody>
-    </Div>
-</table>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+<body >
+
+
+<!-- Main Content -->
+<div id="content">
+    <h2>Quiz Report!</h2>
+    <div class="table-container">
+
+        <table >
+            <tr >
+                <th id="t" > Register Number </th>
+                <td> 211704018 </td>
+            </tr>
+            <tr>
+                <th id="t"> Name </th>
+                <td> DINESH P </td>
+            </tr>
+            <tr>
+                <th id="t"> Date Of Birth </th>
+                <td> 29/01/2000 </td>
+            </tr>
+        </table>
+    </div>
+    <div class="table-container">
+
+        <table>
+            <tr>
+                <th> Question </th><br>
+                <th> Option A </th>
+                <th> Option A </th>
+                <th> Option A </th>
+                <th> Option A </th>
+                <th> Correct Option</th>
+                <th> Marked Option</th>
+            </tr>
+
+            <tr th:each="infoDatas : ${infoData.payload}">
+                <td th:text="${infoDatas.questionEntity.content}"></td>
+                <td th:text="${infoDatas.questionEntity.option1}" ></td>
+                <td th:text="${infoDatas.questionEntity.option2}"></td>
+                <td th:text="${infoDatas.questionEntity.option3}"></td>
+                <td th:text="${infoDatas.questionEntity.option4}"></td>
+                <td th:text="${infoDatas.questionEntity.answer}"></td>
+                <td th:text="${infoDatas.givenAnswer}"></td>
+            </tr>
+        </table>
+    </div>
+    <span>
+                <b> AAA-Absent | P-PASS | F-FAIL | RA - Re-Appear (from 2019-2020 Batch)</b>
+               </span>
+
+</div>
+
+
 </body>
 </html>
+

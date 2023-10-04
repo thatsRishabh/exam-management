@@ -3,17 +3,18 @@ package com.exam.exam.management.service.impl;
 import com.exam.exam.management.entity.exam.CategoryEntity;
 import com.exam.exam.management.repository.CategoryRepository;
 import com.exam.exam.management.request.SearchPaginationRequest;
+import com.exam.exam.management.response.ApiResponse;
 import com.exam.exam.management.service.CategoryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-
 import java.util.*;
 
 @Service
@@ -22,23 +23,49 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Override
-    public CategoryEntity addCategory(CategoryEntity categoryEntity) {
-        return this.categoryRepository.save(categoryEntity);
+    public ResponseEntity<ApiResponse<CategoryEntity>> addCategory(CategoryEntity categoryEntity) {
+        try {
+            CategoryEntity payload = this.categoryRepository.save(categoryEntity);
+            return ResponseEntity.ok(new ApiResponse<>("success", "Data saved successfully", payload, 200));
+        } catch (Exception e) {
+            // Handle the exception here and log it
+            log.error("An error occurred while saving data", e);
+            return ResponseEntity.internalServerError().body(new ApiResponse<>("error", e.getMessage(), null, 500));
+        }
     }
 
     @Override
-    public CategoryEntity updateCategory(CategoryEntity categoryEntity) {
-        return this.categoryRepository.save(categoryEntity);
+    public ResponseEntity<ApiResponse<CategoryEntity>> updateCategory(Long categoryId, CategoryEntity categoryEntity) {
+        try {
+            Optional<CategoryEntity> existingCategory = this.categoryRepository.findById(categoryId);
+
+            if (existingCategory.isPresent()) {
+                // Update the existing category with the new data
+                CategoryEntity updatedCategory = existingCategory.get();
+                updatedCategory.setTitle(categoryEntity.getTitle());
+                updatedCategory.setDescription(categoryEntity.getDescription());
+                // Save the updated category
+                CategoryEntity payload = this.categoryRepository.save(updatedCategory);
+
+                return ResponseEntity.ok(new ApiResponse<>("success", "Data updated successfully", payload, 200));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse<>("error", "Category not found", null, 404));
+            }
+        } catch (Exception e) {
+            // Handle the exception here and log it
+            log.error("An error occurred while updating data", e);
+            return ResponseEntity.internalServerError()
+                    .body(new ApiResponse<>("error", e.getMessage(), null, 500));
+        }
     }
-    // in below we haved added sorting with respect to "id" in descending order
-//    @Override
-//    public Set<CategoryEntity> getCategories() {
-//        return new LinkedHashSet<>(this.categoryRepository.findAll(Sort.by(Sort.Order.desc("cid"))));
-//    }
+
 
     @Override
-    public Object getCategories(SearchPaginationRequest searchParams) {
+    public ResponseEntity<ApiResponse<Object>> getCategories(SearchPaginationRequest searchParams) {
 
         try {
             Long id = searchParams.getId();
@@ -75,29 +102,60 @@ public class CategoryServiceImpl implements CategoryService {
                     "perPageRecord", perPageRecord,
                     "totalPages", categoryPage.getTotalPages()
             );
-
-            return map;
+            return ResponseEntity.ok( new ApiResponse<>("success", "Data retrieved successfully", map, 200));
         } catch (Exception e) {
             e.printStackTrace();
-            return e.getMessage();
+            log.error("An error occurred while saving data", e);
+//            return e.getMessage();
+            return ResponseEntity.internalServerError().body( new ApiResponse<>("error", e.getMessage(), null, 500));
         }
 
     }
 
     @Override
-    public CategoryEntity getCategory(Long categoryID) {
-        return this.categoryRepository.findById(categoryID).get();
+    public ResponseEntity<ApiResponse<CategoryEntity>> getCategory(Long categoryId) {
+        try {
+            Optional<CategoryEntity> categoryEntityOptional = this.categoryRepository.findById(categoryId);
+
+            if (categoryEntityOptional.isPresent()) {
+                CategoryEntity categoryEntity = categoryEntityOptional.get();
+                return ResponseEntity.ok(new ApiResponse<>("success", "Data retrieved successfully", categoryEntity, 200));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse<>("error", "Category not found", null, 404));
+            }
+        } catch (Exception e) {
+            // Handle the exception here and log it
+            log.error("An error occurred while retrieving data", e);
+            return ResponseEntity.internalServerError()
+                    .body(new ApiResponse<>("error", e.getMessage(), null, 500));
+        }
     }
 
+
     @Override
-    public void deleteCategory(Long categoryID) {
+    public ResponseEntity<ApiResponse<?>> deleteCategory(Long categoryId) {
+        try {
+            Optional<CategoryEntity> category = this.categoryRepository.findById(categoryId);
+            if (category.isPresent()) {
+                //  CategoryEntity categoryEntity= new CategoryEntity();
+                //  categoryEntity.setCid(categoryID);
+                //  this.categoryRepository.delete(categoryEntity);
 
-    // below one is easy single line code
-//        this.categoryRepository.deleteById(categoryID);
+            // below one is easy single line code
 
-        CategoryEntity categoryEntity= new CategoryEntity();
-        categoryEntity.setCid(categoryID);
-        this.categoryRepository.delete(categoryEntity);
+                this.categoryRepository.deleteById(categoryId);
+                return ResponseEntity.ok(new ApiResponse<>("success", "Data deleted successfully", null, 200));
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ApiResponse<>("error", "Category not found", null, 404));
+            }
+        } catch (Exception e) {
+            // Handle the exception here and log it
+            log.error("An error occurred while deleting data", e);
+            return ResponseEntity.internalServerError()
+                    .body(new ApiResponse<>("error", e.getMessage(), null, 500));
+        }
     }
 
 

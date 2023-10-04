@@ -97,7 +97,6 @@ public class QuestionController {
             String finalHtml = null;
             Context dataContext = this.questionService.attemptedQuesPrint(userId);
             finalHtml = this.springTemplateEngine.process("quizWithAnswer", dataContext);
-
             String fileName = null;
             String downloadURl = null;
             Long fileSize = null;
